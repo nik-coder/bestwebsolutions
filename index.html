@@ -47,6 +47,73 @@
     gtag('config', 'G-XFETLQG0Y8');
     </script>
 
+<style>
+
+
+@media (min-width: 1281px) {
+  
+    #desktop_nik { display: block !important; }
+    #mobile_nik { display: none !important; }
+  
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  
+    #desktop_nik { display: block !important; }
+    #mobile_nik { display: none !important; }
+  
+}
+
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+  
+        #desktop_nik { display: none !important; }
+        #mobile_nik { display: block !important; }
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+    #desktop_nik { display: none !important; }
+    #mobile_nik { display: block !important; }
+  
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  
+    #desktop_nik { display: none !important; }
+    #mobile_nik { display: block !important; }
+  
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+    #desktop_nik { display: none !important; }
+    #mobile_nik { display: block !important; }
+  
+}
+</style>
+
 </head>
 
 <body>
@@ -109,13 +176,20 @@
                                 <a href="index.html#footer" class="main-btn" data-animation="fadeInUp" data-delay="0.8s">Get Started Now</a>
                             </div> <!-- header content -->
                         </div>
-                        <div class="col-lg-5 col-sm-10" style="padding-top: 2em;">
+                        <div id="desktop_nik" class="col-lg-5 col-sm-10" style="padding-top: 2em;">
                            <div class="animate__animated animate__bounceInLeft animate__delay-1s"><h2 style="color: #fff;font-family: Arial;font-weight: bold;">Wordpress & Woo</h2></div>
                            <div class="animate__animated animate__bounceInRight animate__delay-2s"><h2 style="color: #fff;font-family: Arial;font-weight: bold;">Magento</h2></div>
                            <div class="animate__animated animate__bounceInLeft animate__delay-3s"><h2 style="color: #fff;font-family: Arial;font-weight: bold;">Laravel</h2></div>
                            <div class="animate__animated animate__bounceInRight animate__delay-4s"><h2 style="color: #fff;font-family: Arial;font-weight: bold;">React & Vue</h2></div>
                            <div class="animate__animated animate__bounceInLeft animate__delay-5s"><h2 style="color: #fff;font-family: Arial;font-weight: bold;">Windows & Linux</h2></div>
                         </div>
+                        <div id="mobile_nik" class="col-lg-5 col-sm-10" style="padding-top: 2em;">
+                            <div><h2 style="color: #fff;font-family: Arial;font-weight: bold;">Wordpress & Woo</h2></div>
+                            <div><h2 style="color: #fff;font-family: Arial;font-weight: bold;">Magento</h2></div>
+                            <div><h2 style="color: #fff;font-family: Arial;font-weight: bold;">Laravel</h2></div>
+                            <div><h2 style="color: #fff;font-family: Arial;font-weight: bold;">React & Vue</h2></div>
+                            <div><h2 style="color: #fff;font-family: Arial;font-weight: bold;">Windows & Linux</h2></div>
+                         </div>
                     </div> <!-- row -->
                 </div> <!-- container -->
             </div> <!-- single slider -->
