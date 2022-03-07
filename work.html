@@ -1,0 +1,269 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <!--====== Title ======-->
+    <title>Web Development, Mobile applications - Best Web Solutions</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!--====== Bootstrap CSS ======-->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+    <!--====== Jquery js ======-->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    <script>
+        jQuery(document).ready(function() {
+	
+	if (localStorage.getItem("accordionItems") !== null) {
+		jQuery(".accordion-item-wrapper").html(localStorage.getItem("accordionItems"));	
+	}
+	
+	if (localStorage.getItem("resultCode") !== null) {
+		jQuery(".accordion-result textarea").val(localStorage.getItem("resultCode"));	
+	}
+	
+	if (localStorage.getItem("accordionId") !== null) {
+		jQuery(".accordion-id").val(localStorage.getItem("accordionId"));	
+	}
+	
+	if (localStorage.getItem("startingId") !== null) {
+		jQuery(".starting-id").val(localStorage.getItem("startingId"));	
+	}
+	
+	function createNewItem(order) {
+		var newItem = '<div class="accordion-item">'+
+			'<a href="#"><i class="glyphicon glyphicon-trash delete-item"></i></a>'+
+			'<div class="form-group">'+
+			'<label>Position '+order+' Title</label>'+
+			'<input class="form-control" type="text" name="accordion-title">'+
+			'</div>'+
+			'<div class="form-group">'+
+			'<label>Position '+order+' Description</label>'+
+			'<textarea class="form-control" rows="8" name="accordion-description"></textarea>'+
+			'</div>'+
+			'</div>';
+
+		jQuery(".accordion-item-wrapper").append(newItem);
+	}
+	
+	function createNewPanel(accordionId,panelId,title,description) {
+		var newPanel = '\n\t<div class="panel panel-default">\n\t\t'+
+			'<div class="panel-heading" role="tab" id="heading'+panelId+'">\n\t\t\t'+
+				'<h3 class="panel-title">\n\t\t\t\t'+
+					'<a data-toggle="collapse" data-parent="#accordion'+accordionId+'" href="#collapse'+panelId+'" aria-expanded="true" aria-controls="collapse'+panelId+'" class="collapsed">\n\t\t\t\t\t'+
+						'<span>'+title+'</span> <i class="glyphicon glyphicon-plus"></i>\n\t\t\t\t'+
+					'</a>\n\t\t\t'+
+				'</h3>\n\t\t'+
+			'</div>\n\t\t'+
+			'<div id="collapse'+panelId+'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'+panelId+'">\n\t\t\t'+
+				'<div class="panel-body">\n\t\t\t\t'+
+					description+'\n\t\t\t'+
+				'</div>\n\t\t'+
+			'</div>\n\t'+
+		'</div>';
+		
+		return newPanel;
+	}
+	
+	jQuery(".btn-add-new").click(function(e) {
+		e.preventDefault();
+		var order = jQuery(".accordion-item").length + 1,
+			startingId = parseInt(jQuery(".starting-id").text());
+		
+		createNewItem(order);
+	});
+	
+	jQuery(".accordion-item-wrapper").on("click",".delete-item",function() {
+		if (jQuery(".accordion-item").length > 1) {
+			if (confirm("Are you sure you want to delete this accordion item?")) {
+				jQuery(this).closest(".accordion-item").remove();
+			}
+		} else {
+			alert("Nice try, but you cannot delete the only accordion item available!");
+		}
+	});
+	
+	jQuery(".btn-generate").click(function() {
+		var numItems = jQuery(".accordion-item").length,
+			accordionId = parseInt(jQuery(".accordion-id").val()),
+			startingId = parseInt(jQuery(".starting-id").val()),
+			resultCode = "",
+			itemsArray = [];
+		
+		jQuery(".accordion-item-wrapper input").each(function() {
+			jQuery(this).attr("value",jQuery(this).val());
+		});
+		
+		jQuery(".accordion-item-wrapper textarea").each(function() {
+			jQuery(this).html(jQuery(this).val());
+		});
+		
+		for (var i = 0; i < jQuery(".accordion-item").length; i++) {
+			var panelId = (i + startingId),
+				title = jQuery(".accordion-item-wrapper .accordion-item:eq("+i+")").find("input").val(),
+				description = jQuery(".accordion-item-wrapper .accordion-item:eq("+i+")").find("textarea").val();
+
+			itemsArray.push({
+				panelId: panelId,
+				title: title,
+				description: description
+			});
+		}
+		
+		for (var i = 0; i < itemsArray.length; i++) {
+			if (i == 0) {
+				resultCode += '<div class="panel-group" id="accordion'+accordionId+'" role="tablist" aria-multiselectable="true">';
+			}
+			
+			resultCode += createNewPanel(accordionId,itemsArray[i].panelId,itemsArray[i].title,itemsArray[i].description);
+			
+			if (i == (itemsArray.length - 1)) {
+				resultCode += '\n</div>';
+			}
+		}
+		
+		//Populate preview and code output
+		jQuery(".accordion-preview").html(resultCode);
+		jQuery(".accordion-preview-wrapper").show();
+		jQuery(".accordion-result textarea").val(resultCode);
+		
+		//Get html of accordion items for storing
+		var accordionItems = jQuery(".accordion-item-wrapper").html();
+		
+		//Store that stuff
+		localStorage.setItem("resultCode",resultCode);
+		localStorage.setItem("accordionId",accordionId);
+		localStorage.setItem("startingId",startingId);
+		localStorage.setItem("accordionItems",accordionItems);
+	});
+});
+    </script>
+
+<style>
+
+
+/* Bootsrap accordion generator */
+
+body {
+	padding-top: 20px;
+}
+
+.delete-item {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.accordion-item {
+	border-bottom: 2px dashed #ccc !important;
+	padding-bottom: 10px !important;
+	margin-bottom: 20px !important;
+	position: relative !important;
+}
+.add-new-wrapper {
+	border-bottom: 2px dashed #ccc;
+	padding-bottom: 20px;
+}
+.clear-both {
+	clear: both;
+}
+.accordion-preview-wrapper {
+	display: none;
+}
+.panel-heading {
+	padding: 0;
+}
+.panel-heading a {
+	padding: 10px 15px;
+	display: block;
+}
+.panel-title i {
+	float: right;
+}
+
+
+</style>
+
+</head>
+
+<body>
+    
+    <!--====== Accordion generator PART STARTS ======-->
+
+    <div class="container" id="accordion-generator">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="accordion-item-wrapper">
+                    <div class="accordion-item">
+                        <a href="#"><i class="glyphicon glyphicon-trash delete-item"></i></a>
+                        <div class="form-group">
+                            <label>Position Title</label>
+                            <input class="form-control" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label>Position Description</label>
+                            <textarea class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group text-right add-new-wrapper">
+                            <a class="btn-add-new" href="#"><i class="glyphicon glyphicon-plus"></i> Add New Item</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label>DONT CHANGE - Accordion Wrapper ID/</label>
+                            <input class="form-control accordion-id" type="text" value="1" />
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label>DONT CHANGE - First Item ID</label>
+                            <input class="form-control starting-id" type="text" value="1" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 clear-both">
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block btn-generate"><i class="glyphicon glyphicon-ok"></i> Generate Code</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="accordion-result">
+                    <div class="form-group">
+                        <label>Result - COPY FROM INSIDE AND SEND ME TO EMAIL nikpennan@gmail.com</label>
+                        <textarea rows="15" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="accordion-preview-wrapper">
+                    <label>Preview</label>
+                    <div class="accordion-preview">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
