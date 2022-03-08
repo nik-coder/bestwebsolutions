@@ -62,14 +62,14 @@
 	
 	function createNewPanel(accordionId,panelId,title,description) {
 		var newPanel = '\n\t<div class="panel panel-default">\n\t\t'+
-			'<div class="panel-heading" role="tab" id="heading'+panelId+'">\n\t\t\t'+
-				'<h3 class="panel-title">\n\t\t\t\t'+
+			'<div class="panel-heading" role="tab" style="width: 100%; max-width: 100%;" id="heading'+panelId+'">\n\t\t\t'+
+				'<h3 class="panel-title" style="padding-right: 1%; max-width: 100%;">\n\t\t\t\t'+
 					'<a data-toggle="collapse" data-parent="#accordion'+accordionId+'" href="#collapse'+panelId+'" aria-expanded="true" aria-controls="collapse'+panelId+'" class="collapsed">\n\t\t\t\t\t'+
 						'<span>'+title+'</span> <i class="glyphicon glyphicon-plus"></i>\n\t\t\t\t'+
 					'</a>\n\t\t\t'+
 				'</h3>\n\t\t'+
 			'</div>\n\t\t'+
-			'<div id="collapse'+panelId+'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'+panelId+'">\n\t\t\t'+
+			'<div id="collapse'+panelId+'" class="panel-collapse collapse" role="tabpanel" style="width: 600px; max-width: 100%;" aria-labelledby="heading'+panelId+'">\n\t\t\t'+
 				'<div class="panel-body">\n\t\t\t\t'+
 					description+'\n\t\t\t'+
 				'</div>\n\t\t'+
