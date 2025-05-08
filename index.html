@@ -53,44 +53,64 @@
 </style>
 
 <style>
+    /* Grid layout */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
 
+    .grid-item {
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
- /* Modal background */
- #modalOverlay {
+    .grid-item:hover {
+      background-color: #ddd;
+    }
+
+    /* Modal */
+    #modalOverlay {
       display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.8);
       z-index: 1000;
     }
 
-    /* Modal container */
     #modalContainer {
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       background: white;
-      padding: 20px;
-      width: 80%; height: 80%;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 80%;
+      height: 80%;
+      padding: 0;
+      box-shadow: 0 0 10px black;
     }
 
-    /* iFrame */
     #modalIframe {
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    /* Close button */
     #closeModal {
       position: absolute;
       top: 10px; right: 20px;
-      cursor: pointer;
-      font-size: 18px;
+      color: white;
+      font-size: 24px;
       font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
     }
+
 
 @media (min-width: 1281px) {
   
@@ -464,36 +484,48 @@
                 </div>
             </div> <!-- row -->
         </div> <!-- container -->
-        <div class="container">
+
+        <div class="grid-container">
+            <div class="grid-item" data-url="https://www.flurry.com/">Drupal Website</div>
+            <div class="grid-item" data-url="https://www.passporttosuccess.org/">Drupal Website</div>
+            <div class="grid-item" data-url="https://www.africanparks.org/">Drupal Website</div>
+            <div class="grid-item" data-url="https://burstsys.org/">Bootstrap Website</div>
+            <div class="grid-item" data-url="https://www.pastureslodge.co.uk/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://www.polarpumps.co.uk/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://elegantculturaltours.com/">Wordpress Website</div>
+            <div class="grid-item" data-url="http://sheffieldstudentproperty.co.uk/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://www.bikeboxalan.com/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://scrubsagency.com.au/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://www.fortizbookkeeping.com.au/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://www.vollie.com.au/">SquareSpace Website</div>
+            <div class="grid-item" data-url="https://pakko.com.au/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://consultativesales.com.au/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://grannybgoods.com/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://www.azhomeswithangela.com/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://legalcasereview.com/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://attorneyleads.com/">Wordpress Website</div>
+            <div class="grid-item" data-url="https://www.vyking.com/">Laravel Website</div>
+            <div class="grid-item" data-url="https://www.dyves.com/">Laravel Website</div>
+            <div class="grid-item" data-url="https://formelife.com/">Shopify Website</div>
+            <div class="grid-item" data-url="https://storageboxshop.co.uk">Shopify Website</div>
+            <div class="grid-item" data-url="https://watermanshair.com/">Shopify Website</div>
+            <div class="grid-item" data-url="https://www.intryc.com/">Webflow Website</div>
+            <div class="grid-item" data-url="https://www.crescentcares.com/">Webflow Website</div>
+            <div class="grid-item" data-url="https://www.scaleup.finance/">Webflow Website</div>
+        </div>
+          </div>
+          
+          <div id="modalOverlay">
+            <div id="modalContainer">
+              <iframe id="modalIframe" src=""></iframe>
+            </div>
+            <div id="closeModal">✕</div>
+          </div>
+
+        <!--<div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-6">
-                    <div class="single_project">
-                        
-                        <button id="openModal">Open Website in Modal</button>
-
-                        <div id="modalOverlay">
-                          <div id="modalContainer">
-                            <div id="closeModal">X</div>
-                            <iframe id="modalIframe" src=""></iframe>
-                          </div>
-                        </div>
-                        
-                        <script>
-                          $(document).ready(function() {
-                            $('#openModal').on('click', function() {
-                              $('#modalIframe').attr('src', 'https://example.com'); // Change to your target URL
-                              $('#modalOverlay').fadeIn();
-                            });
-                        
-                            $('#closeModal, #modalOverlay').on('click', function(e) {
-                              if (e.target.id === 'modalOverlay' || e.target.id === 'closeModal') {
-                                $('#modalOverlay').fadeOut();
-                                $('#modalIframe').attr('src', ''); // Clear iframe src to stop playback/activity
-                              }
-                            });
-                          });
-                        </script>
-
+                    <div class="single_project">                  
                         <div class="project_image" style="height: 270px;max-height: auto;">
                             <img src="assets/images/logo-pasture.png" alt="project">
                         </div>
@@ -502,7 +534,7 @@
                             <h4 class="title"><a href="#">Pasture Lodge Hotel</a></h4>
                             <a class="plus" href="https://www.pastureslodge.co.uk/" target="_blank"><i class="lni lni-plus"></i></a>
                         </div>
-                    </div> <!-- single project -->
+                    </div> 
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="single_project">
@@ -514,7 +546,7 @@
                             <h4 class="title"><a href="#">Polar Pumps</a></h4>
                             <a class="plus" href="https://www.polarpumps.co.uk/" target="_blank"><i class="lni lni-plus"></i></a>
                         </div>
-                    </div> <!-- single project -->
+                    </div> 
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="single_project">
@@ -526,7 +558,7 @@
                             <h4 class="title"><a href="#">BikeBox Alan</a></h4>
                             <a class="plus" href="https://www.bikeboxalan.com/" target="_blank"><i class="lni lni-plus"></i></a>
                         </div>
-                    </div> <!-- single project -->
+                    </div> 
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="single_project">
@@ -538,7 +570,7 @@
                             <h4 class="title"><a href="#">Legends - Mixed Martial Arts</a></h4>
                             <a class="plus" href="https://legendsmma.com.au/" target="_blank"><i class="lni lni-plus"></i></a>
                         </div>
-                    </div> <!-- single project -->
+                    </div> 
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="single_project">
@@ -550,7 +582,7 @@
                             <h4 class="title"><a href="#">Fortiz</a></h4>
                             <a class="plus" href="https://www.fortizaccountants.com.au/" target="_blank"><i class="lni lni-plus"></i></a>
                         </div>
-                    </div> <!-- single project -->
+                    </div> 
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="single_project">
@@ -562,10 +594,10 @@
                             <h4 class="title"><a href="#">Banner Design</a></h4>
                             <a class="plus" href="https://www.willowwoods.com.au/" target="_blank"><i class="lni lni-plus"></i></a>
                         </div>
-                    </div> <!-- single project -->
+                    </div> 
                 </div>
-            </div> <!-- row -->
-        </div> <!-- container fluid -->
+            </div> 
+        </div> --> <!-- container fluid -->
         <!--<div class="container">
             <div class="project_btn text-center pt-30">
                 <a href="javascript:void(0)" class="main-btn">View All</a>
@@ -577,7 +609,7 @@
 
     <!--====== PRICING PART START ======-->
 
-    <section id="positions" class="pricing_area pt-115 pb-120" style="background-image: url(assets/images/hire_bg.jpg)">
+    <!--<section id="positions" class="pricing_area pt-115 pb-120" style="background-image: url(assets/images/hire_bg.jpg)">
         <div class="container">
             <div class="row justify-content-center">
                 <div style="padding: 15px 15px;"><h1 style="font-weight: bold;color: #fff;">OPEN POSITIONS</h1></div>
@@ -726,9 +758,9 @@
                     <p>English is important</p>
                     <p><strong>Send your CV with rate per hour at</strong> >>> info@bestwebsolutions.uk</p>
                     </div></div></div></div>	
-            </div> <!-- row -->
-        </div> <!-- container -->
-    </section>
+            </div> 
+        </div> 
+    </section> -->
 
     <!--====== PRICING PART ENDS ======-->
 
@@ -859,6 +891,20 @@
 
     <!--====== Main js ======-->
     <script src="assets/js/main.js"></script>
+
+    <script>
+        $(document).ready(function () {
+          $('.grid-item').click(function () {
+            const url = $(this).data('url');
+            const width = 1000;
+            const height = 700;
+            const left = (screen.width / 2) - (width / 2);
+            const top = (screen.height / 2) - (height / 2);
+      
+            window.open(url, 'PopupWindow', `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes`);
+          });
+        });
+      </script>
 
 </body>
 <!--  Trenutno sam u inostranstvu za sva pitanja u vezi firme i ostalog nazovite na telefon +44 8 43927347 -->
