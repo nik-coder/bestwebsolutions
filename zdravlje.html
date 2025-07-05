@@ -40,7 +40,7 @@
   </div>
 
   <script>
-    const feedUrl = 'https://corsproxy.io/?' + encodeURIComponent('https://draxe.com/feed/?post_type=recipe');
+    const feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://draxe.com/feed/?post_type=recipe';
     //const feedUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://draxe.com/feed/?post_type=recipe');
     const parser = new DOMParser();
 
@@ -52,8 +52,7 @@
     async function fetchFeed() {
       const res = await fetch(feedUrl);
       const data = await res.json();
-      const feedXml = parser.parseFromString(data.contents, "application/xml");
-      const items = feedXml.querySelectorAll("item");
+      const items = data.items;
 
       const contentDiv = document.getElementById("content");
       contentDiv.innerHTML = "";
