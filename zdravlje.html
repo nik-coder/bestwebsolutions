@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dr. Axe Dnevni Zdravstveni Pregled</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    article {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .loading {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📰 Dr. Axe – Dnevni Pregled (Tekući mesec)</h1>
+  <div id="content">
+    <div class="loading">Učitavanje članaka...</div>
+  </div>
+
+  <script>
+    const feedUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://draxe.com/feed/');
+    const parser = new DOMParser();
+
+    // Dobijemo trenutni datum i izračunamo prvi i poslednji dan tekućeg meseca
+    const today = new Date();
+    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+    async function fetchFeed() {
+      const res = await fetch(feedUrl);
+      const data = await res.json();
+      const feedXml = parser.parseFromString(data.contents, "application/xml");
+      const items = feedXml.querySelectorAll("item");
+
+      const contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = "";
+
+      let count = 0;
+
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        const pubDateStr = item.querySelector("pubDate")?.textContent;
+        if (!pubDateStr) continue;
+
+        const pubDate = new Date(pubDateStr);
+
+        // Provera da li je datum iz tekućeg meseca
+        if (pubDate >= firstDay && pubDate <= lastDay) {
+          const title = item.querySelector("title").textContent;
+          const link = item.querySelector("link").textContent;
+
+          const fullHTML = await fetchAndTranslateArticle(title, link);
+          if (fullHTML) {
+            const article = document.createElement("article");
+            article.innerHTML = fullHTML;
+            contentDiv.appendChild(article);
+            count++;
+          }
+        }
+      }
+
+      if(count === 0) {
+        contentDiv.innerHTML = "<p>Za tekući mesec nema dostupnih članaka.</p>";
+      }
+    }
+
+    async function fetchAndTranslateArticle(title, url) {
+      try {
+        const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+        const res = await fetch(proxyUrl);
+        const data = await res.json();
+        const html = parser.parseFromString(data.contents, "text/html");
+
+        const content = html.querySelector(".article-content") || html.querySelector("article");
+        const imgMeta = html.querySelector('meta[property="og:image"]');
+        const img = imgMeta ? `<img src="${imgMeta.content}" alt="slika"><br>` : '';
+
+        if (!content) return null;
+
+        const originalHTML = content.innerHTML;
+        const translated = await translateText(stripHTML(originalHTML));
+
+        return `<h2>${await translateText(title)}</h2>` + img + `<p>${translated}</p>`;
+      } catch (err) {
+        console.error("Greška u preuzimanju članka:", err);
+        return "";
+      }
+    }
+
+    async function translateText(text) {
+      try {
+        const res = await fetch('https://libretranslate.de/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            q: text,
+            source: 'en',
+            target: 'sr',
+            format: 'text'
+          })
+        });
+        const data = await res.json();
+        return data.translatedText;
+      } catch (e) {
+        console.warn("Greška u prevodu:", e);
+        return text; // fallback: originalni tekst
+      }
+    }
+
+    function stripHTML(html) {
+      const tmp = document.createElement("div");
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || "";
+    }
+
+    fetchFeed();
+  </script>
+</body>
+</html>
